@@ -22,6 +22,8 @@ print('hello world')
 
 #rst3nk - Katherine Chacon Cai
 
+#rst3nk - Katherine Chacon Cai
+
 import uvage
 
 
@@ -29,13 +31,18 @@ camera = uvage.Camera(1000, 1000)
 
 player = uvage.from_color(25, 250, "purple", 50, 50) 
 bullet = uvage.from_color(player.x,player.y, "red", 10, 10)
+n = 100
+enemy = uvage.from_color(900,250, "blue", n, n)
 playerSpeed = 9
-bulletSpeed = 10
+bulletSpeed = 15
+enemySpeed = 10
 
 def tick():
     global playerSpeed
     global bulletSpeed
     global bullet
+    global n
+    global enemySpeed
     camera.clear("black")
         
     if uvage.is_pressing("right arrow"): 
@@ -55,19 +62,29 @@ def tick():
         if 1000 < player.y: 
             player.y -= playerSpeed
     
-
+    enemy.y += enemySpeed
+    if 0 > enemy.y or enemy.y > 500:
+        enemySpeed = -1*enemySpeed
+        
     if uvage.is_pressing("space"):
         bullet.x += bulletSpeed
     else: 
         bullet = uvage.from_color(player.x,player.y, "red", 10, 10)
-        
+    
+    if bullet.touches(enemy):
+        enemy.size = [n-10,n-10]
+        n = n-10
+        if enemy.size == [30,30]:
+            uvage.draw("dead",12,"red", enemy.x, enemy.y)
         
         
     camera.draw(bullet)                        
     camera.draw(player)
+    camera.draw(enemy)
     camera.display()
  
 uvage.timer_loop(30, tick)
+
 
 
 
