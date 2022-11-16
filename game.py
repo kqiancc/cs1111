@@ -24,6 +24,7 @@ print('hello world')
 
 import uvage
 
+
 camera = uvage.Camera(1000, 1000)
 
 player = uvage.from_color(25, 250, "purple", 50, 50) 
@@ -34,6 +35,7 @@ bulletSpeed = 10
 def tick():
     global playerSpeed
     global bulletSpeed
+    global bullet
     camera.clear("black")
         
     if uvage.is_pressing("right arrow"): 
@@ -55,12 +57,19 @@ def tick():
     
 
     if uvage.is_pressing("space"):
-        bullet.x += bulletSpeed 
-        camera.draw(bullet)
-                            
+        bullet.x += bulletSpeed
+    else: 
+        bullet = uvage.from_color(player.x,player.y, "red", 10, 10)
+        
+        
+        
+    camera.draw(bullet)                        
     camera.draw(player)
     camera.display()
  
 uvage.timer_loop(30, tick)
+
+
+
 
 
