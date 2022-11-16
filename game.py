@@ -23,14 +23,17 @@ print('hello world')
 #rst3nk - Katherine Chacon Cai
 
 import uvage
-import random
+
 camera = uvage.Camera(1000, 1000)
 
-player = uvage.from_color(25, 250, "purple", 40, 40) 
+player = uvage.from_color(25, 250, "purple", 50, 50) 
+bullet = uvage.from_color(player.x,player.y, "red", 10, 10)
 playerSpeed = 9
+bulletSpeed = 10
 
 def tick():
     global playerSpeed
+    global bulletSpeed
     camera.clear("black")
         
     if uvage.is_pressing("right arrow"): 
@@ -49,8 +52,15 @@ def tick():
         player.y += playerSpeed
         if 1000 < player.y: 
             player.y -= playerSpeed
+    
+
+    if uvage.is_pressing("space"):
+        bullet.x += bulletSpeed 
+        camera.draw(bullet)
                             
     camera.draw(player)
     camera.display()
  
 uvage.timer_loop(30, tick)
+
+
