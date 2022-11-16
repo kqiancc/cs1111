@@ -43,7 +43,7 @@ def tick():
             player.x += playerSpeed
     elif uvage.is_pressing("up arrow"): 
         player.y -= playerSpeed
-        if 1000 < player.y: 
+        if 0 > player.y: 
             player.y += playerSpeed
     elif uvage.is_pressing("down arrow"): 
         player.y += playerSpeed
