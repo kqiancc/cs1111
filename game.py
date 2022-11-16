@@ -20,9 +20,11 @@ print('hello world')
 # Health Bar - health bars for the player and some enemies, player will lose when health bar is at 0
 # Multiple levels - there are 3 levels for the player to get through
 
+#rst3nk - Katherine Chacon Cai
+
 import uvage
 import random
-camera = uvage.Camera(500, 500)
+camera = uvage.Camera(1000, 1000)
 
 player = uvage.from_color(25, 250, "purple", 40, 40) 
 playerSpeed = 9
@@ -33,14 +35,20 @@ def tick():
         
     if uvage.is_pressing("right arrow"): 
         player.x += playerSpeed
-        if 500 < player.x: 
+        if 1000 < player.x: 
             player.x -= playerSpeed
     elif uvage.is_pressing("left arrow"): 
         player.x -= playerSpeed 
         if 0 > player.x:
             player.x += playerSpeed
-
-
+    elif uvage.is_pressing("up arrow"): 
+        player.y -= playerSpeed
+        if 1000 < player.y: 
+            player.y += playerSpeed
+    elif uvage.is_pressing("down arrow"): 
+        player.y += playerSpeed
+        if 1000 < player.y: 
+            player.y -= playerSpeed
                             
     camera.draw(player)
     camera.display()
