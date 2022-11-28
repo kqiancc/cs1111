@@ -1,5 +1,3 @@
-print('hello world')
-
 # Katherine Chacon Cai rst3nk
 # Victoria Spitzer fky7tb
 
@@ -25,17 +23,21 @@ print('hello world')
 #rst3nk - Katherine Chacon Cai
 
 import uvage
-
-
 camera = uvage.Camera(1000, 1000)
 
 player = uvage.from_color(25, 250, "purple", 50, 50) 
 bullet = uvage.from_color(player.x,player.y, "red", 10, 10)
+healthBar = uvage.from_color(100, 950, "white", 500, 30)
+wordHealth = uvage.from_text(160, 950, "total health", 50, "pink")
+m = 500
+totalHealth = uvage.from_color(100, 950, "red", m, 30)
 n = 100
 enemy = uvage.from_color(900,250, "blue", n, n)
+enemyBullet = uvage.from_color(enemy.x,enemy.y, "green", 10, 10)
 playerSpeed = 9
 bulletSpeed = 15
 enemySpeed = 10
+counter = 0
 
 def tick():
     global playerSpeed
@@ -43,8 +45,17 @@ def tick():
     global bullet
     global n
     global enemySpeed
+    global enemyBullet
+    global counter
+    global totalHealth
+    global m 
+    global gameOver
+    global enemy
+    
     camera.clear("black")
+    counter+=1
         
+    '''player mobility'''
     if uvage.is_pressing("right arrow"): 
         player.x += playerSpeed
         if 1000 < player.x: 
@@ -62,31 +73,54 @@ def tick():
         if 1000 < player.y: 
             player.y -= playerSpeed
     
-    enemy.y += enemySpeed
+    '''enemy mobility and bullet'''
+    enemy.y += enemySpeed 
     if 0 > enemy.y or enemy.y > 500:
-        enemySpeed = -1*enemySpeed
+        enemySpeed = -1*enemySpeed  
+    enemyBullet.x -= bulletSpeed
+    
+    if enemyBullet.touches(player): #enemyBullet dealing damage on player
+        enemyBullet = uvage.from_color(enemy.x,enemy.y, "green", 10, 10)
+        totalHealth.size = [m-50, 30]
+        m = m-50
         
-    if uvage.is_pressing("space"):
+    elif m <= 0: #player dies and game ends
+        gameOver = uvage.from_text(500, 500, "game over", 100, "red")
+        camera.draw(gameOver)                    
+        camera.draw(player)
+        camera.draw(enemy)
+        camera.draw(healthBar)
+        camera.draw(totalHealth)
+        camera.draw(wordHealth)
+        return camera.display()
+
+    elif enemyBullet.touches(bullet): #player bullet can deflect enemy bullet
+        enemyBullet = uvage.from_color(enemy.x,enemy.y, "green", 10, 10)
+    elif counter%60 == 0:
+        enemyBullet = uvage.from_color(enemy.x,enemy.y, "green", 10, 10)
+        
+    
+    if uvage.is_pressing("space"): #how player can shoot
         bullet.x += bulletSpeed
     else: 
         bullet = uvage.from_color(player.x,player.y, "red", 10, 10)
     
-    if bullet.touches(enemy):
+    if bullet.touches(enemy): #how player can defeat enemies
         enemy.size = [n-10,n-10]
         n = n-10
-        if enemy.size == [30,30]:
-            uvage.draw("dead",12,"red", enemy.x, enemy.y)
+        dead = uvage.from_text(enemy.x, enemy.y, "dead", 50,"red")
+        if n <= 30:
+            enemy = uvage.from_color(900,250, "black", n, n)
+            camera.draw(dead)
         
         
     camera.draw(bullet)                        
     camera.draw(player)
+    camera.draw(enemyBullet)
     camera.draw(enemy)
+    camera.draw(healthBar)
+    camera.draw(totalHealth)
+    camera.draw(wordHealth)
     camera.display()
  
 uvage.timer_loop(30, tick)
-
-
-
-
-
-
