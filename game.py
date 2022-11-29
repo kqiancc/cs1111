@@ -27,6 +27,7 @@ camera = uvage.Camera(1000, 1000)
 
 player = uvage.from_color(25, 250, "purple", 50, 50) 
 bullet = uvage.from_color(player.x,player.y, "red", 10, 10)
+shoot = False
 healthBar = uvage.from_color(100, 950, "white", 500, 30)
 wordHealth = uvage.from_text(170, 950, "total health", 50, "pink")
 m = 700
@@ -54,6 +55,7 @@ def tick():
     global enemy
     global player
     global level1deaths
+    global shoot
     
     camera.clear("black")
     counter+=1
@@ -114,7 +116,12 @@ def tick():
         enemyBullet = uvage.from_color(enemy.x,enemy.y, "green", 10, 10)
         
     if uvage.is_pressing("space"): #how player can shoot
+        shoot = True
+            
+    if shoot == True:
         bullet.x += bulletSpeed
+        if bullet.x > 1000: #only one bullet can be visible on screen at once rn so need to fix that
+            shoot = False
     else: 
         bullet = uvage.from_color(player.x,player.y, "red", 10, 10)
     
@@ -169,4 +176,3 @@ def tick():
     camera.display()
  
 uvage.timer_loop(30, tick)
-
