@@ -28,16 +28,17 @@ camera = uvage.Camera(1000, 1000)
 player = uvage.from_color(25, 250, "purple", 50, 50) 
 bullet = uvage.from_color(player.x,player.y, "red", 10, 10)
 healthBar = uvage.from_color(100, 950, "white", 500, 30)
-wordHealth = uvage.from_text(160, 950, "total health", 50, "pink")
+wordHealth = uvage.from_text(170, 950, "total health", 50, "pink")
 m = 700
 totalHealth = uvage.from_color(0, 950, "red", m, 30)
 n = 100
 enemy = uvage.from_color(900,250, "blue", n, n)
 enemyBullet = uvage.from_color(enemy.x,enemy.y, "green", 10, 10)
 playerSpeed = 9
-bulletSpeed = 15
+bulletSpeed = 20
 enemySpeed = 10
 counter = 0
+level1deaths = 0
 
 def tick():
     global playerSpeed
@@ -52,6 +53,7 @@ def tick():
     global gameOver
     global enemy
     global player
+    global level1deaths
     
     camera.clear("black")
     counter+=1
@@ -76,12 +78,12 @@ def tick():
     
     '''enemy mobility and bullet'''
     enemy.y += enemySpeed 
-    if 0 > enemy.y or enemy.y > 500:
+    if 0 > enemy.y or enemy.y > 1000:
         enemySpeed = -1*enemySpeed  
     
     enemyBullet.x -= bulletSpeed
     
-    if enemyBullet.touches(player): #enemyBullet dealing damage on player
+    if enemyBullet.touches(player): #enemy bullet dealing damage on player
         enemyBullet = uvage.from_color(enemy.x,enemy.y, "green", 10, 10)
         totalHealth.size = [m-70, 30]
         m = m-70
@@ -103,29 +105,60 @@ def tick():
             n = 100
             counter = 0
             player = uvage.from_color(25, 250, "purple", 50, 50) 
-            
+            totalHealth = uvage.from_color(0, 950, "red", m, 30)
+            enemy = uvage.from_color(900,250, "blue", n, n)
     
-
     elif enemyBullet.touches(bullet): #player bullet can deflect enemy bullet
         enemyBullet = uvage.from_color(enemy.x,enemy.y, "green", 10, 10)
     elif counter%60 == 0:
         enemyBullet = uvage.from_color(enemy.x,enemy.y, "green", 10, 10)
         
-    
     if uvage.is_pressing("space"): #how player can shoot
         bullet.x += bulletSpeed
     else: 
         bullet = uvage.from_color(player.x,player.y, "red", 10, 10)
     
-    if bullet.touches(enemy): #how player can defeat enemies
+    if bullet.touches(enemy): #how player can defeat enemies and gain back health
         enemy.size = [n-10,n-10]
         n = n-10
-        dead = uvage.from_text(enemy.x, enemy.y, "dead", 50,"red")
+        if m < 700:
+            totalHealth.size = [m+35, 30]
+            m = m+35
+        else:
+            pass
         if n <= 30:
-            enemy = uvage.from_color(900,250, "black", n, n)
+            dead = uvage.from_text(enemy.x, enemy.y, "dead", 50,"red")
+            n = 100
+            level1deaths +=1
             camera.draw(dead)
-        
-        
+            if level1deaths < 4: 
+                 if enemy.y <800:
+                    enemy = uvage.from_color(900,enemy.y+200, "blue", n, n)
+                 elif enemy.y >800:
+                    enemy = uvage.from_color(900,enemy.y-200, "blue", n, n)
+            else:
+                pass
+    
+    if level1deaths >= 4: 
+        '''beat level 1 by killing a certain number of enemies 
+        (idk i picked a random number for now)'''
+        enemyBullet.x = 0
+        enemy.y = 0 
+        beatlevel1 = uvage.from_text(500, 500, "level 1 complete", 100, "green")
+        hitEnter = uvage.from_text(500, 600, "hit enter to play level 2", 50, "orange")        
+        camera.draw(player)
+        camera.draw(enemy)
+        camera.draw(healthBar)
+        camera.draw(totalHealth)
+        camera.draw(wordHealth)
+        camera.draw(beatlevel1)    
+        camera.draw(hitEnter)
+         
+        if uvage.is_pressing("return"): #going to level 2
+            level1deaths = 0
+            player = uvage.from_color(25, 250, "purple", 50, 50)
+            #idk what level 2's set up is yet   
+                 
     camera.draw(bullet)                        
     camera.draw(player)
     camera.draw(enemyBullet)
@@ -136,3 +169,4 @@ def tick():
     camera.display()
  
 uvage.timer_loop(30, tick)
+
