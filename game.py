@@ -29,8 +29,8 @@ player = uvage.from_color(25, 250, "purple", 50, 50)
 bullet = uvage.from_color(player.x,player.y, "red", 10, 10)
 healthBar = uvage.from_color(100, 950, "white", 500, 30)
 wordHealth = uvage.from_text(160, 950, "total health", 50, "pink")
-m = 500
-totalHealth = uvage.from_color(100, 950, "red", m, 30)
+m = 700
+totalHealth = uvage.from_color(0, 950, "red", m, 30)
 n = 100
 enemy = uvage.from_color(900,250, "blue", n, n)
 enemyBullet = uvage.from_color(enemy.x,enemy.y, "green", 10, 10)
@@ -51,6 +51,7 @@ def tick():
     global m 
     global gameOver
     global enemy
+    global player
     
     camera.clear("black")
     counter+=1
@@ -77,22 +78,33 @@ def tick():
     enemy.y += enemySpeed 
     if 0 > enemy.y or enemy.y > 500:
         enemySpeed = -1*enemySpeed  
+    
     enemyBullet.x -= bulletSpeed
     
     if enemyBullet.touches(player): #enemyBullet dealing damage on player
         enemyBullet = uvage.from_color(enemy.x,enemy.y, "green", 10, 10)
-        totalHealth.size = [m-50, 30]
-        m = m-50
+        totalHealth.size = [m-70, 30]
+        m = m-70
         
     elif m <= 0: #player dies and game ends
+        enemyBullet.x = 0
+        enemy.y = 0 
         gameOver = uvage.from_text(500, 500, "game over", 100, "red")
-        camera.draw(gameOver)                    
+        hitEnter = uvage.from_text(500, 600, "hit enter to start over", 50, "orange")        
         camera.draw(player)
         camera.draw(enemy)
         camera.draw(healthBar)
         camera.draw(totalHealth)
         camera.draw(wordHealth)
-        return camera.display()
+        camera.draw(gameOver)    
+        camera.draw(hitEnter) 
+        if uvage.is_pressing("return"): #restarting the game
+            m = 700
+            n = 100
+            counter = 0
+            player = uvage.from_color(25, 250, "purple", 50, 50) 
+            
+    
 
     elif enemyBullet.touches(bullet): #player bullet can deflect enemy bullet
         enemyBullet = uvage.from_color(enemy.x,enemy.y, "green", 10, 10)
