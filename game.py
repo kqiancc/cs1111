@@ -23,17 +23,17 @@
 #rst3nk - Katherine Chacon Cai
 
 import uvage
-camera = uvage.Camera(1000, 1000)
+camera = uvage.Camera(800, 600)
 
 player = uvage.from_color(25, 250, "purple", 50, 50) 
 bullet = uvage.from_color(player.x,player.y, "red", 10, 10)
 shoot = False
-healthBar = uvage.from_color(100, 950, "white", 500, 30)
-wordHealth = uvage.from_text(170, 950, "total health", 50, "pink")
+healthBar = uvage.from_color(100, 550, "white", 500, 30)
+wordHealth = uvage.from_text(170, 550, "total health", 50, "pink")
 m = 700
-totalHealth = uvage.from_color(0, 950, "red", m, 30)
+totalHealth = uvage.from_color(0, 550, "red", m, 30)
 n = 100
-enemy = uvage.from_color(900,250, "blue", n, n)
+enemy = uvage.from_color(700,250, "blue", n, n)
 enemyBullet = uvage.from_color(enemy.x,enemy.y, "green", 10, 10)
 playerSpeed = 9
 bulletSpeed = 20
@@ -59,11 +59,15 @@ def tick():
     
     camera.clear("black")
     counter+=1
+    
+    # if counter <= 120:
+    #     title = uvage.from_text(500, 500, "title slide", 100, "purple")
+    #     camera.
         
     '''player mobility'''
     if uvage.is_pressing("right arrow"): 
         player.x += playerSpeed
-        if 1000 < player.x: 
+        if 800 < player.x: 
             player.x -= playerSpeed
     elif uvage.is_pressing("left arrow"): 
         player.x -= playerSpeed 
@@ -75,12 +79,12 @@ def tick():
             player.y += playerSpeed
     elif uvage.is_pressing("down arrow"): 
         player.y += playerSpeed
-        if 1000 < player.y: 
+        if 600 < player.y: 
             player.y -= playerSpeed
     
     '''enemy mobility and bullet'''
     enemy.y += enemySpeed 
-    if 0 > enemy.y or enemy.y > 1000:
+    if 0 > enemy.y or enemy.y > 600:
         enemySpeed = -1*enemySpeed  
     
     enemyBullet.x -= bulletSpeed
@@ -93,8 +97,8 @@ def tick():
     elif m <= 0: #player dies and game ends
         enemyBullet.x = 0
         enemy.y = 0 
-        gameOver = uvage.from_text(500, 500, "game over", 100, "red")
-        hitEnter = uvage.from_text(500, 600, "hit enter to start over", 50, "orange")        
+        gameOver = uvage.from_text(400, 300, "game over", 100, "red")
+        hitEnter = uvage.from_text(400, 400, "hit enter to start over", 50, "orange")        
         camera.draw(player)
         camera.draw(enemy)
         camera.draw(healthBar)
@@ -107,8 +111,8 @@ def tick():
             n = 100
             counter = 0
             player = uvage.from_color(25, 250, "purple", 50, 50) 
-            totalHealth = uvage.from_color(0, 950, "red", m, 30)
-            enemy = uvage.from_color(900,250, "blue", n, n)
+            totalHealth = uvage.from_color(0, 550, "red", m, 30)
+            enemy = uvage.from_color(700, 250, "blue", n, n)
     
     elif enemyBullet.touches(bullet): #player bullet can deflect enemy bullet
         enemyBullet = uvage.from_color(enemy.x,enemy.y, "green", 10, 10)
@@ -120,7 +124,7 @@ def tick():
             
     if shoot == True:
         bullet.x += bulletSpeed
-        if bullet.x > 1000: #only one bullet can be visible on screen at once rn so need to fix that
+        if bullet.x > 800: #only one bullet can be visible on screen at once rn so need to fix that
             shoot = False
     else: 
         bullet = uvage.from_color(player.x,player.y, "red", 10, 10)
@@ -139,10 +143,10 @@ def tick():
             level1deaths +=1
             camera.draw(dead)
             if level1deaths < 4: 
-                 if enemy.y <800:
-                    enemy = uvage.from_color(900,enemy.y+200, "blue", n, n)
-                 elif enemy.y >800:
-                    enemy = uvage.from_color(900,enemy.y-200, "blue", n, n)
+                 if enemy.y < 600:
+                    enemy = uvage.from_color(700,enemy.y+200, "blue", n, n)
+                 elif enemy.y > 600:
+                    enemy = uvage.from_color(700,enemy.y-200, "blue", n, n)
             else:
                 pass
     
@@ -151,8 +155,8 @@ def tick():
         (idk i picked a random number for now)'''
         enemyBullet.x = 0
         enemy.y = 0 
-        beatlevel1 = uvage.from_text(500, 500, "level 1 complete", 100, "green")
-        hitEnter = uvage.from_text(500, 600, "hit enter to play level 2", 50, "orange")        
+        beatlevel1 = uvage.from_text(400, 300, "level 1 complete", 100, "green")
+        hitEnter = uvage.from_text(400, 300, "hit enter to play level 2", 50, "orange")        
         camera.draw(player)
         camera.draw(enemy)
         camera.draw(healthBar)
@@ -176,3 +180,4 @@ def tick():
     camera.display()
  
 uvage.timer_loop(30, tick)
+
