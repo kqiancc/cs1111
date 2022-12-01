@@ -26,8 +26,11 @@ import uvage
 camera = uvage.Camera(800, 600)
 
 player = uvage.from_color(25, 250, "purple", 50, 50) 
-bullet = uvage.from_color(player.x,player.y, "red", 10, 10)
-shoot = False
+bullet1 = uvage.from_color(player.x,player.y, "red", 10, 10)
+bullet2 = uvage.from_color(player.x,player.y, "red", 10, 10)
+shoot1 = False
+shoot2 = False
+start = False
 healthBar = uvage.from_color(100, 550, "white", 500, 30)
 wordHealth = uvage.from_text(170, 550, "total health", 50, "pink")
 m = 700
@@ -36,7 +39,7 @@ n = 100
 enemy = uvage.from_color(700,250, "blue", n, n)
 enemyBullet = uvage.from_color(enemy.x,enemy.y, "green", 10, 10)
 playerSpeed = 9
-bulletSpeed = 20
+bulletSpeed = 40
 enemySpeed = 10
 counter = 0
 level1deaths = 0
@@ -44,7 +47,8 @@ level1deaths = 0
 def tick():
     global playerSpeed
     global bulletSpeed
-    global bullet
+    global bullet1
+    global bullet2
     global n
     global enemySpeed
     global enemyBullet
@@ -55,128 +59,151 @@ def tick():
     global enemy
     global player
     global level1deaths
-    global shoot
+    global shoot1
+    global start
+    global shoot2
     
     camera.clear("black")
     counter+=1
     
-    # if counter <= 120:
-    #     title = uvage.from_text(500, 500, "title slide", 100, "purple")
-    #     camera.
+    if uvage.is_pressing("return"):
+        start = True 
         
-    '''player mobility'''
-    if uvage.is_pressing("right arrow"): 
-        player.x += playerSpeed
-        if 800 < player.x: 
-            player.x -= playerSpeed
-    elif uvage.is_pressing("left arrow"): 
-        player.x -= playerSpeed 
-        if 0 > player.x:
+    elif start == False:
+        title = uvage.from_text(400, 300, "cs 1111 game", 100, "purple")
+        hitEnter = uvage.from_text(400, 400, "hit enter to play", 50, "orange")
+        camera.draw(title)
+        camera.draw(hitEnter)
+    
+    if start == True:       
+        '''player mobility'''
+        if uvage.is_pressing("right arrow"): 
             player.x += playerSpeed
-    elif uvage.is_pressing("up arrow"): 
-        player.y -= playerSpeed
-        if 0 > player.y: 
-            player.y += playerSpeed
-    elif uvage.is_pressing("down arrow"): 
-        player.y += playerSpeed
-        if 600 < player.y: 
+            if 800 < player.x: 
+                player.x -= playerSpeed
+        elif uvage.is_pressing("left arrow"): 
+            player.x -= playerSpeed 
+            if 0 > player.x:
+                player.x += playerSpeed
+        elif uvage.is_pressing("up arrow"): 
             player.y -= playerSpeed
-    
-    '''enemy mobility and bullet'''
-    enemy.y += enemySpeed 
-    if 0 > enemy.y or enemy.y > 600:
-        enemySpeed = -1*enemySpeed  
-    
-    enemyBullet.x -= bulletSpeed
-    
-    if enemyBullet.touches(player): #enemy bullet dealing damage on player
-        enemyBullet = uvage.from_color(enemy.x,enemy.y, "green", 10, 10)
-        totalHealth.size = [m-70, 30]
-        m = m-70
+            if 0 > player.y: 
+                player.y += playerSpeed
+        elif uvage.is_pressing("down arrow"): 
+            player.y += playerSpeed
+            if 600 < player.y: 
+                player.y -= playerSpeed
         
-    elif m <= 0: #player dies and game ends
-        enemyBullet.x = 0
-        enemy.y = 0 
-        gameOver = uvage.from_text(400, 300, "game over", 100, "red")
-        hitEnter = uvage.from_text(400, 400, "hit enter to start over", 50, "orange")        
-        camera.draw(player)
-        camera.draw(enemy)
-        camera.draw(healthBar)
-        camera.draw(totalHealth)
-        camera.draw(wordHealth)
-        camera.draw(gameOver)    
-        camera.draw(hitEnter) 
-        if uvage.is_pressing("return"): #restarting the game
-            m = 700
-            n = 100
-            counter = 0
-            player = uvage.from_color(25, 250, "purple", 50, 50) 
-            totalHealth = uvage.from_color(0, 550, "red", m, 30)
-            enemy = uvage.from_color(700, 250, "blue", n, n)
-    
-    elif enemyBullet.touches(bullet): #player bullet can deflect enemy bullet
-        enemyBullet = uvage.from_color(enemy.x,enemy.y, "green", 10, 10)
-    elif counter%60 == 0:
-        enemyBullet = uvage.from_color(enemy.x,enemy.y, "green", 10, 10)
+        '''enemy mobility and bullet'''
+        enemy.y += enemySpeed 
+        if 0 > enemy.y or enemy.y > 600:
+            enemySpeed = -1*enemySpeed  
         
-    if uvage.is_pressing("space"): #how player can shoot
-        shoot = True
+        enemyBullet.x -= bulletSpeed
+        
+        if enemyBullet.touches(player): #enemy bullet dealing damage on player
+            enemyBullet = uvage.from_color(enemy.x,enemy.y, "green", 10, 10)
+            totalHealth.size = [m-70, 30]
+            m = m-70
             
-    if shoot == True:
-        bullet.x += bulletSpeed
-        if bullet.x > 800: #only one bullet can be visible on screen at once rn so need to fix that
-            shoot = False
-    else: 
-        bullet = uvage.from_color(player.x,player.y, "red", 10, 10)
+        elif m <= 0: #player dies and game ends
+            enemyBullet.x = 0
+            enemy.y = 0 
+            gameOver = uvage.from_text(400, 300, "game over", 100, "red")
+            hitEnter = uvage.from_text(400, 400, "hit enter to start over", 50, "orange")        
+            camera.draw(player)
+            camera.draw(enemy)
+            camera.draw(healthBar)
+            camera.draw(totalHealth)
+            camera.draw(wordHealth)
+            camera.draw(gameOver)    
+            camera.draw(hitEnter) 
+            if uvage.is_pressing("return"): #restarting the game
+                m = 700
+                n = 100
+                counter = 0
+                player = uvage.from_color(25, 250, "purple", 50, 50) 
+                totalHealth = uvage.from_color(0, 550, "red", m, 30)
+                enemy = uvage.from_color(700, 250, "blue", n, n)
+        
+        elif enemyBullet.touches(bullet1) or enemyBullet.touches(bullet2): #player bullet can deflect enemy bullet
+            enemyBullet = uvage.from_color(enemy.x,enemy.y, "green", 10, 10)
+        elif counter%45 == 0:
+            enemyBullet = uvage.from_color(enemy.x,enemy.y, "green", 10, 10)
     
-    if bullet.touches(enemy): #how player can defeat enemies and gain back health
-        enemy.size = [n-10,n-10]
-        n = n-10
-        if m < 700:
-            totalHealth.size = [m+35, 30]
-            m = m+35
+        if uvage.is_pressing("space"): #how player can shoot
+            shoot1 = True
+ 
+        if shoot1 == True:
+                bullet1.x += bulletSpeed
+                if bullet1.touches(enemy):
+                    shoot1 = False
+                elif bullet1.x > 800:
+                    shoot1 = False 
+        else: 
+            bullet1 = uvage.from_color(player.x,player.y, "red", 10, 10)
+        
+        if bullet1.x > 200 and uvage.is_pressing("space"):
+                shoot2 = True
+        if shoot2 == True:
+            bullet2.x += bulletSpeed
+            if bullet2.touches(enemy):
+                shoot2 = False
+            elif bullet2.x > 800:
+                shoot2 = False             
         else:
-            pass
-        if n <= 30:
-            dead = uvage.from_text(enemy.x, enemy.y, "dead", 50,"red")
-            n = 100
-            level1deaths +=1
-            camera.draw(dead)
-            if level1deaths < 4: 
-                 if enemy.y < 600:
-                    enemy = uvage.from_color(700,enemy.y+200, "blue", n, n)
-                 elif enemy.y > 600:
-                    enemy = uvage.from_color(700,enemy.y-200, "blue", n, n)
+            bullet2 = uvage.from_color(player.x,player.y, "red", 10, 10) 
+        
+        if bullet1.touches(enemy): #how player can defeat enemies and gain back health
+            enemy.size = [n-10,n-10]
+            n = n-10
+            if m < 700:
+                totalHealth.size = [m+35, 30]
+                m = m+35
             else:
                 pass
-    
-    if level1deaths >= 4: 
-        '''beat level 1 by killing a certain number of enemies 
-        (idk i picked a random number for now)'''
-        enemyBullet.x = 0
-        enemy.y = 0 
-        beatlevel1 = uvage.from_text(400, 300, "level 1 complete", 100, "green")
-        hitEnter = uvage.from_text(400, 300, "hit enter to play level 2", 50, "orange")        
+            if n <= 30:
+                dead = uvage.from_text(enemy.x, enemy.y, "dead", 50,"red")
+                n = 100
+                level1deaths +=1
+                camera.draw(dead)
+                if level1deaths < 4: 
+                    if enemy.y < 600:
+                        enemy = uvage.from_color(700,enemy.y+200, "blue", n, n)
+                    elif enemy.y > 600:
+                        enemy = uvage.from_color(700,enemy.y-200, "blue", n, n)
+                else:
+                    pass
+        
+        if level1deaths >= 4: 
+            '''beat level 1 by killing a certain number of enemies 
+            (idk i picked a random number for now)'''
+            enemyBullet.x = 0
+            enemy.y = 0 
+            beatlevel1 = uvage.from_text(400, 300, "level 1 complete", 100, "green")
+            hitEnter = uvage.from_text(400, 300, "hit enter to play level 2", 50, "orange")        
+            camera.draw(player)
+            camera.draw(enemy)
+            camera.draw(healthBar)
+            camera.draw(totalHealth)
+            camera.draw(wordHealth)
+            camera.draw(beatlevel1)    
+            camera.draw(hitEnter)
+            
+            if uvage.is_pressing("return"): #going to level 2
+                level1deaths = 0
+                player = uvage.from_color(25, 250, "purple", 50, 50)
+                #idk what level 2's set up is yet   
+                 
+        camera.draw(bullet1)
+        camera.draw(bullet2)                        
         camera.draw(player)
+        camera.draw(enemyBullet)
         camera.draw(enemy)
         camera.draw(healthBar)
         camera.draw(totalHealth)
         camera.draw(wordHealth)
-        camera.draw(beatlevel1)    
-        camera.draw(hitEnter)
-         
-        if uvage.is_pressing("return"): #going to level 2
-            level1deaths = 0
-            player = uvage.from_color(25, 250, "purple", 50, 50)
-            #idk what level 2's set up is yet   
-                 
-    camera.draw(bullet)                        
-    camera.draw(player)
-    camera.draw(enemyBullet)
-    camera.draw(enemy)
-    camera.draw(healthBar)
-    camera.draw(totalHealth)
-    camera.draw(wordHealth)
+    
     camera.display()
  
 uvage.timer_loop(30, tick)
