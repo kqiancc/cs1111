@@ -27,16 +27,13 @@ import random
 camera = uvage.Camera(800, 600)
 
 '''things left to code: 
-add bullets for enemy 2 and 3
 add images
-also fix the changing to red color
-also prly adjust speed of movement but idk'''
+also fix the changing to red color'''
 '''turn  this on!!! player runs into enemy player gets hurt
 also fix up comments'''
 
 start = False #when it's True is when gameplay is displayed
 counter = 0 #to keep track of time for automated things
-bulletSpeed = 40 #you're gonna need to make variations on this btw
 gameplay = True
 
 '''player'''
@@ -44,12 +41,13 @@ player = uvage.from_color(25, 250, "purple", 50, 50)
 playerSpeed = 20
 canMove = True
 totalenemyDeaths = 0
+bulletSpeed = 40
 
 '''health'''
 healthBar = uvage.from_color(100, 550, "white", 500, 30)
 wordHealth = uvage.from_text(170, 550, "total health", 50, "pink")
 healthDecrease = 700 #variable to allow the health bar to decrease
-healthRegen = 35
+healthRegen = 70
 totalHealth = uvage.from_color(0, 550, "red", healthDecrease, 30)
 
 '''weapon 1'''
@@ -65,7 +63,7 @@ stillBulletspeed = 30
 '''level 1'''
 enemy1Damage = 150 #variable to allow the enemy to shrink as it's dealt damage
 enemy1 = uvage.from_color(700,250, "blue", enemy1Damage, enemy1Damage)
-
+e1bulletSpeed = 30
 e1Bullet1 = uvage.from_color(enemy1.x,enemy1.y, "green", 10, 10)
 e1Bullet2 = uvage.from_color(enemy1.x,enemy1.y, "green", 10, 10)
 e1Bullet3 = uvage.from_color(enemy1.x,enemy1.y, "green", 10, 10)
@@ -83,7 +81,15 @@ enemy2Damage = 100 #variable to allow the enemy to shrink as it's dealt damage
 enemy2 = uvage.from_color(550,900, "blue", enemy2Damage, enemy2Damage)
 enemy2Speed = 15
 enemy2Deaths = 0
-#ADD BULLETS
+e2bulletSpeed = 40
+e2Bullet1 = uvage.from_color(enemy2.x,enemy2.y, "green", 10, 10)
+e2Bullet2 = uvage.from_color(enemy2.x,enemy2.y, "green", 10, 10)
+e2Bullet3 = uvage.from_color(enemy2.x,enemy2.y, "green", 10, 10)
+e2Bullet4 = uvage.from_color(enemy2.x,enemy2.y, "green", 10, 10)
+e2Bullet1moves = False
+e2Bullet2moves = False
+e2Bullet3moves = False
+e2Bullet4moves = False
 
 '''level 3'''
 level3 = False
@@ -91,6 +97,15 @@ enemy3Damage = 50 #variable to allow the enemy to shrink as it's dealt damage
 enemy3 = uvage.from_color(450,900, "blue", enemy3Damage, enemy3Damage)
 enemy3Speed = 20
 enemy3Deaths = 0
+e3bulletSpeed = 50
+e3Bullet1 = uvage.from_color(enemy3.x,enemy3.y, "green", 10, 10)
+e3Bullet2 = uvage.from_color(enemy3.x,enemy3.y, "green", 10, 10)
+e3Bullet3 = uvage.from_color(enemy3.x,enemy3.y, "green", 10, 10)
+e3Bullet4 = uvage.from_color(enemy3.x,enemy3.y, "green", 10, 10)
+e3Bullet1moves = False
+e3Bullet2moves = False
+e3Bullet3moves = False
+e3Bullet4moves = False
 
 '''weapon 3'''
 laserOn = False
@@ -152,16 +167,35 @@ def tick():
     global e1Bullet2moves
     global e1Bullet3moves
     global e1Bullet4moves
+    global e1bulletSpeed
 
     global enemy2Damage 
     global enemy2
     global enemy2Speed
     global enemy2Deaths
+    global e2Bullet1 
+    global e2Bullet2
+    global e2Bullet3 
+    global e2Bullet4 
+    global e2Bullet1moves 
+    global e2Bullet2moves 
+    global e2Bullet3moves 
+    global e2Bullet4moves
+    global e2bulletSpeed
     
     global enemy3Damage
     global enemy3
     global enemy3Speed
     global enemy3Deaths
+    global e3bulletSpeed
+    global e3Bullet1
+    global e3Bullet2 
+    global e3Bullet3
+    global e3Bullet4 
+    global e3Bullet1moves 
+    global e3Bullet2moves 
+    global e3Bullet3moves 
+    global e3Bullet4moves 
     
     global level2
     global level3
@@ -250,7 +284,7 @@ def tick():
                 e1Bullet1 = uvage.from_color(enemy1.x,enemy1.y, "green", 10, 10)         
             elif e1Bullet1moves == True:
                 camera.draw(e1Bullet1)
-                e1Bullet1.x -= bulletSpeed
+                e1Bullet1.x -= e1bulletSpeed
             if e1Bullet1.x <= 0:
                 e1Bullet1 = uvage.from_color(enemy1.x,enemy1.y, "green", 10, 10)
             
@@ -274,7 +308,7 @@ def tick():
                 e1Bullet2 = uvage.from_color(enemy1.x,enemy1.y, "green", 10, 10)         
             elif e1Bullet2moves == True:
                 camera.draw(e1Bullet2)
-                e1Bullet2.x -= bulletSpeed
+                e1Bullet2.x -= e1bulletSpeed
             if e1Bullet2.x <= 0:
                 e1Bullet2 = uvage.from_color(enemy1.x,enemy1.y, "green", 10, 10)
 
@@ -298,7 +332,7 @@ def tick():
                 e1Bullet3 = uvage.from_color(enemy1.x,enemy1.y, "green", 10, 10)         
             elif e1Bullet3moves == True:
                 camera.draw(e1Bullet3)
-                e1Bullet3.x -= bulletSpeed
+                e1Bullet3.x -= e1bulletSpeed
             if e1Bullet3.x <= 0:
                 e1Bullet3 = uvage.from_color(enemy1.x,enemy1.y, "green", 10, 10)
             
@@ -322,7 +356,7 @@ def tick():
                 e1Bullet4 = uvage.from_color(enemy1.x,enemy1.y, "green", 10, 10)
             elif e1Bullet4moves == True:
                 camera.draw(e1Bullet4)
-                e1Bullet4.x -= bulletSpeed
+                e1Bullet4.x -= e1bulletSpeed
             if e1Bullet4.x <= 0:
                 e1Bullet4 = uvage.from_color(enemy1.x,enemy1.y, "green", 10, 10)
             
@@ -340,7 +374,208 @@ def tick():
         
         camera.draw(enemy1)     
         
+        '''enemy2 bullets and damage'''
+        if level2 ==True or level3 == True:
+            if gameplay == True:
+            
+                #enemy 2 bullet 1 movement
+                if enemy2.y == 100:
+                    e2Bullet1moves = True
+
+                if e2Bullet1moves == False:
+                    e2Bullet1 = uvage.from_color(enemy2.x,enemy2.y, "green", 10, 10)         
+                elif e2Bullet1moves == True:
+                    camera.draw(e2Bullet1)
+                    e2Bullet1.x -= e2bulletSpeed
+                if e2Bullet1.x <= 0:
+                    e2Bullet1 = uvage.from_color(enemy2.x,enemy2.y, "green", 10, 10)
+                
+                #enemy 2 bullet 1 dealing damage
+                if e2Bullet1.touches(player): 
+                    e2Bullet1 = uvage.from_color(enemy2.x,enemy2.y, "green", 10, 10)
+                    totalHealth.size = [healthDecrease - 35, 30]
+                    healthDecrease = healthDecrease - 35
+                
+                #player bullet can deflect enemy bullet
+                if e2Bullet1.touches(bullet1) or e2Bullet1.touches(bullet2):
+                    e2Bullet1 = uvage.from_color(enemy2.x,enemy2.y, "green", 10, 10)
+                elif e2Bullet1.touches(stillBullet):
+                    e2Bullet1 = uvage.from_color(enemy2.x,enemy2.y, "green", 10, 10)
+                
+                '''enemy 2 bullet 2 movement'''
+                if enemy2.y == 200:
+                    e2Bullet2moves = True
+                
+                if e2Bullet2moves == False:
+                    e2Bullet2 = uvage.from_color(enemy2.x,enemy2.y, "green", 10, 10)         
+                elif e2Bullet2moves == True:
+                    camera.draw(e2Bullet2)
+                    e2Bullet2.x -= e2bulletSpeed
+                if e2Bullet2.x <= 0:
+                    e2Bullet2 = uvage.from_color(enemy2.x,enemy2.y, "green", 10, 10)
+
+                #enemy 1 bullet 2 dealing damage
+                if e2Bullet2.touches(player): 
+                    e2Bullet2 = uvage.from_color(enemy2.x,enemy2.y, "green", 10, 10)
+                    totalHealth.size = [healthDecrease - 35, 30]
+                    healthDecrease = healthDecrease - 35
+                
+                #player bullet can deflect enemy bullet
+                if e2Bullet2.touches(bullet1) or e2Bullet2.touches(bullet2):
+                    e2Bullet2 = uvage.from_color(enemy2.x,enemy2.y, "green", 10, 10)
+                elif e2Bullet2.touches(stillBullet):
+                    e2Bullet2 = uvage.from_color(enemy2.x,enemy2.y, "green", 10, 10)
+                
+                '''enemy 1 bullet 3 movement'''
+                if enemy2.y == 300:
+                    e2Bullet3moves = True
+                
+                if e2Bullet3moves == False:
+                    e2Bullet3 = uvage.from_color(enemy2.x,enemy2.y, "green", 10, 10)         
+                elif e2Bullet3moves == True:
+                    camera.draw(e2Bullet3)
+                    e2Bullet3.x -= e2bulletSpeed
+                if e2Bullet3.x <= 0:
+                    e2Bullet3 = uvage.from_color(enemy2.x,enemy2.y, "green", 10, 10)
+                
+                #enemy 1 bullet 3 dealing damage
+                if e2Bullet3.touches(player): 
+                    e2Bullet3 = uvage.from_color(enemy2.x,enemy2.y, "green", 10, 10)
+                    totalHealth.size = [healthDecrease - 35, 30]
+                    healthDecrease = healthDecrease - 35
+                
+                #player bullet can deflect enemy bullet
+                if e2Bullet3.touches(bullet1) or e2Bullet3.touches(bullet2):
+                    e2Bullet3 = uvage.from_color(enemy2.x,enemy2.y, "green", 10, 10)
+                elif e2Bullet3.touches(stillBullet):
+                    e2Bullet3 = uvage.from_color(enemy2.x,enemy2.y, "green", 10, 10)
+                
+                '''enemy 1 bullet 4 movement''' # idk i don't think we need four bullets for e1
+                if enemy2.y == 400:
+                    e2Bullet4moves = True
+                
+                if e2Bullet4moves == False:
+                    e2Bullet4 = uvage.from_color(enemy2.x,enemy2.y, "green", 10, 10)
+                elif e2Bullet4moves == True:
+                    camera.draw(e2Bullet4)
+                    e2Bullet4.x -= e2bulletSpeed
+                if e2Bullet4.x <= 0:
+                    e2Bullet4 = uvage.from_color(enemy2.x,enemy2.y, "green", 10, 10)
+                
+                #enemy 1 bullet 2 dealing damage
+                if e2Bullet4.touches(player): 
+                    e2Bullet4 = uvage.from_color(enemy2.x,enemy2.y, "green", 10, 10)
+                    totalHealth.size = [healthDecrease - 35, 30]
+                    healthDecrease = healthDecrease - 35
+                
+                #player bullet can deflect enemy bullet
+                if e2Bullet4.touches(bullet1) or e2Bullet4.touches(bullet2):
+                    e2Bullet4 = uvage.from_color(enemy2.x,enemy2.y, "green", 10, 10)
+                elif e2Bullet4.touches(stillBullet):
+                    e2Bullet4 = uvage.from_color(enemy2.x,enemy2.y, "green", 10, 10)
+            
+            camera.draw(enemy2)  
         
+        if level3 == True and gameplay == True:
+                
+                #enemy 3 bullet 1 movement
+            if enemy3.y >= 100:
+                e3Bullet1moves = True
+                
+            if e3Bullet1moves == False:
+                e3Bullet1 = uvage.from_color(enemy3.x,enemy3.y, "green", 10, 10)         
+            elif e3Bullet1moves == True:
+                camera.draw(e3Bullet1)
+                e3Bullet1.x -= e3bulletSpeed
+            if e3Bullet1.x <= 0:
+                e3Bullet1 = uvage.from_color(enemy3.x,enemy3.y, "green", 10, 10)
+            
+            #enemy 3 bullet 1 dealing damage
+            if e3Bullet1.touches(player): 
+                e3Bullet1 = uvage.from_color(enemy3.x,enemy3.y, "green", 10, 10)
+                totalHealth.size = [healthDecrease - 35, 30]
+                healthDecrease = healthDecrease - 35
+            
+            #player bullet can deflect enemy bullet
+            if e3Bullet1.touches(bullet1) or e3Bullet1.touches(bullet2):
+                e3Bullet1 = uvage.from_color(enemy3.x,enemy3.y, "green", 10, 10)
+            elif e3Bullet1.touches(stillBullet):
+                e3Bullet1 = uvage.from_color(enemy3.x,enemy3.y, "green", 10, 10)
+            
+            '''enemy 3 bullet 2 movement'''
+            if enemy3.y >= 200:
+                e3Bullet2moves = True
+            
+            if e3Bullet2moves == False:
+                e3Bullet2 = uvage.from_color(enemy3.x,enemy3.y, "green", 10, 10)         
+            elif e3Bullet2moves == True:
+                camera.draw(e3Bullet2)
+                e3Bullet2.x -= e3bulletSpeed
+            if e3Bullet2.x <= 0:
+                e3Bullet2 = uvage.from_color(enemy3.x,enemy3.y, "green", 10, 10)
+
+            #enemy 3 bullet 2 dealing damage
+            if e3Bullet2.touches(player): 
+                e3Bullet2 = uvage.from_color(enemy3.x,enemy3.y, "green", 10, 10)
+                totalHealth.size = [healthDecrease - 35, 30]
+                healthDecrease = healthDecrease - 35
+            
+            #player bullet can deflect enemy bullet
+            if e3Bullet2.touches(bullet1) or e3Bullet2.touches(bullet2):
+                e3Bullet2 = uvage.from_color(enemy3.x,enemy3.y, "green", 10, 10)
+            elif e3Bullet2.touches(stillBullet):
+                e3Bullet2 = uvage.from_color(enemy3.x,enemy3.y, "green", 10, 10)
+            
+            '''enemy 3 bullet 3 movement'''
+            if enemy3.y >= 300:
+                e3Bullet3moves = True
+            
+            if e3Bullet3moves == False:
+                e3Bullet3 = uvage.from_color(enemy3.x,enemy3.y, "green", 10, 10)         
+            elif e3Bullet3moves == True:
+                camera.draw(e3Bullet3)
+                e3Bullet3.x -= e3bulletSpeed
+            if e3Bullet3.x <= 0:
+                e3Bullet3 = uvage.from_color(enemy3.x,enemy3.y, "green", 10, 10)
+            
+            #enemy 3 bullet 3 dealing damage
+            if e3Bullet3.touches(player): 
+                e3Bullet3 = uvage.from_color(enemy3.x,enemy3.y, "green", 10, 10)
+                totalHealth.size = [healthDecrease - 35, 30]
+                healthDecrease = healthDecrease - 35
+            
+            #player bullet can deflect enemy bullet
+            if e3Bullet3.touches(bullet1) or e3Bullet3.touches(bullet2):
+                e3Bullet3 = uvage.from_color(enemy3.x,enemy3.y, "green", 10, 10)
+            elif e3Bullet3.touches(stillBullet):
+                e3Bullet3 = uvage.from_color(enemy3.x,enemy3.y, "green", 10, 10)
+            
+            '''enemy 3 bullet 4 movement''' # idk i don't think we need four bullets for e1
+            if enemy3.y >= 400:
+                e3Bullet4moves = True
+            
+            if e3Bullet4moves == False:
+                e3Bullet4 = uvage.from_color(enemy3.x,enemy3.y, "green", 10, 10)
+            elif e3Bullet4moves == True:
+                camera.draw(e3Bullet4)
+                e3Bullet4.x -= e3bulletSpeed
+            if e3Bullet4.x <= 0:
+                e3Bullet4 = uvage.from_color(enemy3.x,enemy3.y, "green", 10, 10)
+            
+            #enemy 3 bullet 2 dealing damage
+            if e3Bullet4.touches(player): 
+                e3Bullet4 = uvage.from_color(enemy3.x,enemy3.y, "green", 10, 10)
+                totalHealth.size = [healthDecrease - 35, 30]
+                healthDecrease = healthDecrease - 35
+            
+            #player bullet can deflect enemy bullet
+            if e3Bullet4.touches(bullet1) or e3Bullet4.touches(bullet2):
+                e3Bullet4 = uvage.from_color(enemy3.x,enemy3.y, "green", 10, 10)
+            elif e3Bullet4.touches(stillBullet):
+                e3Bullet4 = uvage.from_color(enemy3.x,enemy3.y, "green", 10, 10)
+        
+            camera.draw(enemy3) 
+            
         '''player health'''    
         if healthDecrease <= 0: #if player dies 
             gameplay = False
@@ -357,7 +592,7 @@ def tick():
                 totalenemyDeaths = 0
                 level2 = False
                 level3 = False
-                healthRegen = 35
+                healthRegen = 70
                 healthDecrease = 700
                 enemy1Damage = 150
                 enemy2Damage = 100
@@ -373,16 +608,18 @@ def tick():
         of testing but i'll uncomment it for actual gameplay'''
         # for enemy in enemies:
         #     if player.touches(enemy):
-        #         totalHealth.size = [healthDecrease - 35, 30]
-        #         healthDecrease = healthDecrease - 35
+        #         totalHealth.size = [healthDecrease - 70, 30]
+        #         healthDecrease = healthDecrease - 70
                 
-        '''weapon 1''' #WHY DOESNT IT TURN RED WITH THE FIRST BULLET PLS
+        '''weapon 1''' 
         '''first bullet of weapon 1'''
+
         if uvage.is_pressing("w"): #how player can shoot
             shoot1 = True
+            
         if shoot1 == True:
             bullet1.x += bulletSpeed
-            player.color = "red" #WHY DOESNT THIS WORK
+            player.color = "red" 
             if bullet1.touches(enemy1):
                 shoot1 = False
             if level2 == True or level3 == True:
@@ -673,7 +910,7 @@ def tick():
                     gameplay = True
                     enemy1Deaths = 0
                     level2 = True
-                    healthRegen = 17.5
+                    healthRegen = 35
                     healthDecrease = 700
                     enemy1Damage = 150
                     totalenemyDeaths = 0
@@ -703,7 +940,7 @@ def tick():
                     totalenemyDeaths = 0
                     level2 = False
                     level3 = True
-                    healthRegen = 0
+                    healthRegen = 35
                     healthDecrease = 700
                     enemy1Damage = 150
                     enemy2Damage = 100
@@ -717,34 +954,35 @@ def tick():
         '''beat level 3 by surviving and killing 2 of each enemy'''
         if level3 == True:
             if enemy3Deaths >= 2 and enemy1Deaths >= 2 and enemy2Deaths >= 2:
-                    gameplay = False
-                    beatlevel3 = uvage.from_text(400, 300, "you win!", 100, "green")
-                    hitEnter = uvage.from_text(400, 400, "hit enter to start over", 50, "orange")        
-                    camera.draw(beatlevel3)    
-                    camera.draw(hitEnter)
+                gameplay = False
+                beatlevel3 = uvage.from_text(400, 300, "you win!", 100, "green")
+                hitEnter = uvage.from_text(400, 400, "hit enter to start over", 50, "orange")        
+                camera.draw(beatlevel3)    
+                camera.draw(hitEnter)
                     
-                    if uvage.is_pressing("return"): #returns to the beginning of the game
-                        gameplay = True
-                        enemy1Deaths = 0
-                        enemy2Deaths = 0
-                        enemy3Deaths = 0
-                        totalenemyDeaths = 0
-                        level2 = False
-                        level3 = False
-                        healthRegen = 35
-                        healthDecrease = 700
-                        enemy1Damage = 150
-                        enemy2Damage = 100
-                        enemy3Damage = 50
-                        player = uvage.from_color(25, 250, "purple", 50, 50)
-                        enemy1 = uvage.from_color(700,250, "blue", enemy1Damage, enemy1Damage)
-                        enemy2 = uvage.from_color(550,900, "blue", enemy2Damage, enemy2Damage)
-                        enemy3 = uvage.from_color(450,900, "blue", enemy3Damage, enemy3Damage)
-                        totalHealth = uvage.from_color(0, 550, "red", healthDecrease, 30)
-        
+                if uvage.is_pressing("return"): #returns to the beginning of the game
+                    gameplay = True
+                    enemy1Deaths = 0
+                    enemy2Deaths = 0
+                    enemy3Deaths = 0
+                    totalenemyDeaths = 0
+                    level2 = False
+                    level3 = False
+                    healthRegen = 70
+                    healthDecrease = 700
+                    enemy1Damage = 150
+                    enemy2Damage = 100
+                    enemy3Damage = 50
+                    player = uvage.from_color(25, 250, "purple", 50, 50)
+                    enemy1 = uvage.from_color(700,250, "blue", enemy1Damage, enemy1Damage)
+                    enemy2 = uvage.from_color(550,900, "blue", enemy2Damage, enemy2Damage)
+                    enemy3 = uvage.from_color(450,900, "blue", enemy3Damage, enemy3Damage)
+                    totalHealth = uvage.from_color(0, 550, "red", healthDecrease, 30)
+    
         camera.draw(displayDeaths)
         
     camera.display()
  
 uvage.timer_loop(30, tick)
+
 
