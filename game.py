@@ -654,9 +654,9 @@ def tick():
                 enemy1Deaths += 1
                 totalenemyDeaths += 1
                 camera.draw(dead)
-                if enemy1.y < 600:
+                if enemy1.y < 400:
                     enemy1 = uvage.from_image(700, enemy1.y + 150, "enemy1.png")
-                elif enemy1.y > 600:
+                elif enemy1.y > 400:
                     enemy1 = uvage.from_image(700, enemy1.y - 150, "enemy1.png")
 
         '''if weapon 1 hits enemy2'''
@@ -675,9 +675,9 @@ def tick():
                     enemy2Deaths += 1
                     totalenemyDeaths += 1
                     camera.draw(dead)
-                    if enemy2.y < 600:
+                    if enemy2.y < 400:
                         enemy2 = uvage.from_image(550, enemy2.y + 150, "enemy2.png")
-                    elif enemy2.y > 600:
+                    elif enemy2.y > 400:
                         enemy2 = uvage.from_image(550, enemy2.y - 150, "enemy2.png")
 
         '''if weapon 1 hits enemy3'''
@@ -696,9 +696,9 @@ def tick():
                     enemy3Deaths += 1
                     totalenemyDeaths += 1
                     camera.draw(dead)
-                    if enemy3.y < 600:
+                    if enemy3.y < 400:
                         enemy3 = uvage.from_image(450, enemy3.y + 150, "enemy3.png")
-                    elif enemy3.y > 600:
+                    elif enemy3.y > 400:
                         enemy3 = uvage.from_image(450, enemy3.y - 150, "enemy3.png")
 
         ''' weapon 2'''
@@ -729,9 +729,9 @@ def tick():
                 enemy1Deaths += 1
                 totalenemyDeaths += 1
                 camera.draw(dead)
-                if enemy1.y < 600:
+                if enemy1.y < 400:
                     enemy1 = uvage.from_image(700, enemy1.y + 150, "enemy1.png")
-                elif enemy1.y > 600:
+                elif enemy1.y > 400:
                     enemy1 = uvage.from_image(700, enemy1.y - 150, "enemy1.png")
 
         '''if weapon 2 hits enemy2'''
@@ -751,9 +751,9 @@ def tick():
                     enemy2Deaths += 1
                     totalenemyDeaths += 1
                     camera.draw(dead)
-                    if enemy2.y < 600:
+                    if enemy2.y < 400:
                         enemy2 = uvage.from_image(550, enemy2.y + 150, "enemy2.png")
-                    elif enemy2.y > 600:
+                    elif enemy2.y > 400:
                         enemy2 = uvage.from_image(550, enemy2.y - 150, "enemy2.png")
 
         '''if weapon 2 hits enemy3'''
@@ -773,9 +773,9 @@ def tick():
                     enemy3Deaths += 1
                     totalenemyDeaths += 1
                     camera.draw(dead)
-                    if enemy3.y < 600:
+                    if enemy3.y < 400:
                         enemy3 = uvage.from_image(450, enemy3.y + 150, "enemy3.png")
-                    elif enemy3.y > 600:
+                    elif enemy3.y > 400:
                         enemy3 = uvage.from_image(450, enemy3.y - 150, "enemy3.png")
 
         '''weapon 3'''
@@ -829,9 +829,9 @@ def tick():
                         enemy1Deaths += 1
                         totalenemyDeaths += 1  # keeps track of beating level 1
                         camera.draw(dead)
-                        if enemy1.y < 600:
+                        if enemy1.y < 400:
                             enemy1 = uvage.from_image(700, enemy1.y + 150, "enemy1.png")
-                        elif enemy1.y > 600:
+                        elif enemy1.y > 400:
                             enemy1 = uvage.from_image(700, enemy1.y - 150, "enemy1.png")
 
                 '''if weapon 3 hits enemy2'''
@@ -849,9 +849,9 @@ def tick():
                     enemy2Deaths += 1
                     totalenemyDeaths += 1
                     camera.draw(dead)
-                    if enemy2.y < 600:
+                    if enemy2.y < 400:
                         enemy2 = uvage.from_image(550, enemy2.y + 150, "enemy2.png")
-                    elif enemy2.y > 600:
+                    elif enemy2.y > 400:
                         enemy2 = uvage.from_image(550, enemy2.y - 150, "enemy2.png")
 
                 '''if weapon 3 hits enemy3'''
@@ -869,9 +869,9 @@ def tick():
                     enemy3Deaths += 1
                     totalenemyDeaths += 1
                     camera.draw(dead)
-                    if enemy3.y < 600:
+                    if enemy3.y < 400:
                         enemy3 = uvage.from_image(450, enemy3.y + 150, "enemy3.png")
-                    elif enemy3.y > 600:
+                    elif enemy3.y > 400:
                         enemy3 = uvage.from_image(450, enemy3.y - 150, "enemy3.png")
 
         '''beat level 1 by killing 4 of enemy 1'''
