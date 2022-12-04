@@ -212,8 +212,10 @@ def tick():
         hitEnter = uvage.from_text(400, 400, "hit enter to play", 50, "orange")
         instructions1 = uvage.from_text(400, 450, "press w for weapon 1 and use arrows to move", 30, "pink")
         instructions2 = uvage.from_text(400, 480, "kill four enemies to move on to level 2", 30, "pink")
+        instructions3 = uvage.from_text(400,510, "health is gained back when an enemy is hit", 30, "pink")
         camera.draw(instructions1)
         camera.draw(instructions2)
+        camera.draw(instructions3)
         camera.draw(title)
         camera.draw(hitEnter)
     
