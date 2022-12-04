@@ -18,24 +18,15 @@
 # Health Bar - health bars for the player and some enemies, player will lose when health bar is at 0
 # Multiple levels - there are 3 levels for the player to get through
 
-# rst3nk - Katherine Chacon Cai
-
-# rst3nk - Katherine Chacon Cai
 
 import uvage
 import random
 
 camera = uvage.Camera(800, 600)
 
-'''things left to code: 
-add images
-also fix the changing to red color'''
-'''turn  this on!!! player runs into enemy player gets hurt
-also fix up comments'''
-
 start = False  # when it's True is when gameplay is displayed
 counter = 0  # to keep track of time for automated things
-gameplay = True
+gameplay = True #is False when a level is beat
 
 '''player'''
 player = uvage.from_image(25, 250, "player.png")
@@ -213,8 +204,10 @@ def tick():
         hitEnter = uvage.from_text(400, 400, "hit enter to play", 50, "orange")
         instructions1 = uvage.from_text(400, 450, "press w for weapon 1 and use arrows to move", 30, "pink")
         instructions2 = uvage.from_text(400, 480, "kill four enemies to move on to level 2", 30, "pink")
+        instructions3 = uvage.from_text(400,510, "health is gained back when an enemy is hit", 30, "pink")
         camera.draw(instructions1)
         camera.draw(instructions2)
+        camera.draw(instructions3)
         camera.draw(title)
         camera.draw(hitEnter)
 
@@ -253,7 +246,7 @@ def tick():
 
         '''enemies' mobility'''
         if gameplay == True:
-            enemy1.y += enemy1Speed  # enemy 1 is ther from the start
+            enemy1.y += enemy1Speed  # enemy 1 is there from the start
             if 0 > enemy1.y or enemy1.y > 600:
                 enemy1Speed = -1 * enemy1Speed
 
@@ -345,7 +338,7 @@ def tick():
             elif e1Bullet3.touches(stillBullet):
                 e1Bullet3 = uvage.from_color(enemy1.x, enemy1.y, "green", 10, 10)
 
-            '''enemy 1 bullet 4 movement'''  # idk i don't think we need four bullets for e1
+            '''enemy 1 bullet 4 movement''' 
             if enemy1.y == 400:
                 e1Bullet4moves = True
 
@@ -447,7 +440,7 @@ def tick():
                 elif e2Bullet3.touches(stillBullet):
                     e2Bullet3 = uvage.from_color(enemy2.x, enemy2.y, "green", 10, 10)
 
-                '''enemy 1 bullet 4 movement'''  # idk i don't think we need four bullets for e1
+                '''enemy 1 bullet 4 movement'''  
                 if enemy2.y == 400:
                     e2Bullet4moves = True
 
@@ -547,7 +540,7 @@ def tick():
             elif e3Bullet3.touches(stillBullet):
                 e3Bullet3 = uvage.from_color(enemy3.x, enemy3.y, "green", 10, 10)
 
-            '''enemy 3 bullet 4 movement'''  # idk i don't think we need four bullets for e1
+            '''enemy 3 bullet 4 movement'''
             if enemy3.y >= 400:
                 e3Bullet4moves = True
 
@@ -600,13 +593,10 @@ def tick():
                 enemy3 = uvage.from_image(450, 900, "enemy3.png")
                 totalHealth = uvage.from_color(0, 550, "red", healthDecrease, 30)
 
-        '''player can't touch enemy'''
-        '''okay so imma leave this off rn for the sake
-        of testing but i'll uncomment it for actual gameplay'''
-        # for enemy in enemies:
-        #     if player.touches(enemy):
-        #         totalHealth.size = [healthDecrease - 70, 30]
-        #         healthDecrease = healthDecrease - 70
+        for enemy in enemies:
+             if player.touches(enemy):
+                 totalHealth.size = [healthDecrease - 70, 30]
+                 healthDecrease = healthDecrease - 70
 
         '''weapon 1'''
         '''first bullet of weapon 1'''
