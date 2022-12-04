@@ -16,8 +16,7 @@
 # Enemies - if the enemies hit the player, the player loses health and can die from this.
 # Health Bar - health bars for the player and enemies shrink as they're injured. The player will lose when the health bar is at 0.
 # Multiple levels - there are 3 levels for the player to get through to win.
-'''change from checkpoint1''' 
-#Restart from Game Over - when the character dies at any level or wins the game, they can restart without rerunning the code.
+#NEW FEATURE: Restart from Game Over - when the character dies at any level or wins the game, they can restart without rerunning the code.
 
 
 import uvage
