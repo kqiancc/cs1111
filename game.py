@@ -669,7 +669,7 @@ def tick():
                     healthDecrease = healthDecrease + healthRegen
                 else:
                     pass
-                if enemy2Damage <= 30:
+                if enemy2Damage <= 50:
                     dead = uvage.from_text(enemy2.x, enemy2.y, "dead", 50, "red")
                     enemy2Damage = 100
                     enemy2Deaths += 1
@@ -690,7 +690,7 @@ def tick():
                     healthDecrease = healthDecrease + healthRegen
                 else:
                     pass
-                if enemy3Damage <= 20:
+                if enemy3Damage <= 35:
                     dead = uvage.from_text(enemy3.x, enemy3.y, "dead", 50, "red")
                     enemy3Damage = 50
                     enemy3Deaths += 1
